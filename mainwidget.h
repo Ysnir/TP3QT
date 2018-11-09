@@ -69,8 +69,11 @@ class MainWidget : public QOpenGLWidget, protected QOpenGLFunctions
     Q_OBJECT
 
 public:
-    explicit MainWidget(int fps, QWidget *parent = 0);
+    explicit MainWidget(int fps, int startSeason , QWidget *parent = 0);
     ~MainWidget();
+
+public slots:
+    void changeSeason();
 
 protected:
     void mousePressEvent(QMouseEvent *e) override;
@@ -90,6 +93,7 @@ private:
     QBasicTimer timer;
     QOpenGLShaderProgram program;
     GeometryEngine *geometries;
+    int currentSeason;
 
     QOpenGLTexture *texture;
 

@@ -55,6 +55,7 @@
 
 #ifndef QT_NO_OPENGL
 #include "mainwidget.h"
+#include "calendar.h"
 #endif
 
 int main(int argc, char *argv[])
@@ -64,14 +65,28 @@ int main(int argc, char *argv[])
     QSurfaceFormat format;
     format.setDepthBufferSize(24);
     QSurfaceFormat::setDefaultFormat(format);
+    calendar c(1);
 
-    app.setApplicationName("cube");
-    app.setApplicationVersion("0.1");
+    MainWidget widget(30, 0);
+    MainWidget widget2(30, 1);
+    MainWidget widget3(30, 2);
+    MainWidget widget4(30, 3);
+
+    QObject::connect(&c, SIGNAL(seasonChanged()),
+                       &widget, SLOT(changeSeason()));
+
+    QObject::connect(&c, SIGNAL(seasonChanged()),
+                       &widget2, SLOT(changeSeason()));
+
+    QObject::connect(&c, SIGNAL(seasonChanged()),
+                       &widget3, SLOT(changeSeason()));
+
+    QObject::connect(&c, SIGNAL(seasonChanged()),
+                       &widget4, SLOT(changeSeason()));
+
 #ifndef QT_NO_OPENGL
-    MainWidget widget(10);
-    MainWidget widget2(100);
-    MainWidget widget3(1000);
-    MainWidget widget4(1);
+    c.startCalendar();
+
 
     widget.show();
     widget2.show();

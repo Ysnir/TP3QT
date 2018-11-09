@@ -54,12 +54,13 @@
 
 #include <math.h>
 
-MainWidget::MainWidget(int fps,QWidget *parent) :
+MainWidget::MainWidget(int fps, int s, QWidget *parent) :
     QOpenGLWidget(parent),
     geometries(0),
     texture(0),
     angularSpeed(1.0f),
-    fps(fps)
+    fps(fps),
+    currentSeason(s)
 {
 }
 
@@ -139,6 +140,32 @@ void MainWidget::keyPressEvent(QKeyEvent *event) {
     }
 }
 
+void MainWidget::changeSeason() {
+    if(currentSeason != 3) {
+        currentSeason++;
+    } else {
+        currentSeason=0;
+    }
+
+
+    switch (currentSeason) {
+    case 0:
+        this->setWindowTitle("Printemps");
+        break;
+    case 1:
+        this->setWindowTitle("Eté");
+        break;
+    case 2:
+        this->setWindowTitle("Automne");
+        break;
+    case 3:
+        this->setWindowTitle("Hiver");
+        break;
+    default:
+        break;
+    }
+}
+
 //! [1]
 void MainWidget::timerEvent(QTimerEvent *)
 {
@@ -159,7 +186,7 @@ void MainWidget::timerEvent(QTimerEvent *)
         // Update rotation
         rotation = QQuaternion::fromAxisAndAngle(rotationAxis, angularSpeed) * rotation;
 
-        // Request an update
+        // Request an updateseasonChanged
         update();
     }*/
 }
@@ -267,6 +294,25 @@ void MainWidget::paintGL()
 
     // Use texture unit 0 which contains cube.png
     program.setUniformValue("texture", 0);
+
+
+
+    switch (currentSeason) {
+        case 0:
+            program.setUniformValue("color", QVector4D(0.0, 1.0, 0.0, 1.0));
+            break;
+        case 1:
+             program.setUniformValue("color", QVector4D(1.0, 0.0, 0.0, 1.0));
+            break;
+        case 2:
+             program.setUniformValue("color", QVector4D(1.0, 1.0, 0.0, 1.0));
+            break;
+        case 3:
+             program.setUniformValue("color", QVector4D(0.0, 0.0, 1.0, 1.0));
+            break;
+        default:
+            break;
+    }
 
     // Draw cube geometry
     geometries->drawPlaneGeometry(&program);
