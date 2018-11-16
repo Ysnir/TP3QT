@@ -5,7 +5,8 @@ TEMPLATE = app
 
 SOURCES += \
     calendar.cpp \
-    season_demo.cpp
+    season_demo.cpp \
+    quadtree.cpp
 
 SOURCES += \
     mainwidget.cpp \
@@ -14,7 +15,8 @@ SOURCES += \
 HEADERS += \
     mainwidget.h \
     geometryengine.h \
-    calendar.h
+    calendar.h \
+    quadtree.h
 
 RESOURCES += \
     shaders.qrc \
